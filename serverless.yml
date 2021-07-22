@@ -1,0 +1,19 @@
+service: improved-palm-tree
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  stage: dev
+plugins:
+  - serverless-offline
+functions:
+  test:
+    handler: out/index.test
+    name: "${self:service}-${self:provider.stage}"
+    description: "a test handler"
+    events:
+      - http:
+          path: /v1/something/test
+          method: get
+          cors: true
