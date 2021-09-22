@@ -1,5 +1,7 @@
 {
+  "extends": "@ifit/tsconfig-node",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
     "outDir": "./out"
   }

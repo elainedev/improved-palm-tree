@@ -1,19 +1,39 @@
 service: improved-palm-tree
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  account_id: ${env:AWS_ACCESS_KEY_ID}
+  serverless-offline:
+    port: ${env:PORT, '3000'}
+    host: ${env:HOST, 'localhost'}
+    stage: local
+  local:
+    LLAMA_LE_TOKEN: '${env:LLAMA_LE_TOKEN}'
+    LLAMA_LOG_LEVEL: '${env:LLAMA_LOG_LEVEL}'
 provider:
   name: aws
-  runtime: nodejs8.10
-  region: eu-west-1
-  profile: default
-  stage: dev
+  runtime: nodejs12.x
+  region: us-east-1
+  environment:
+    LLAMA_LE_TOKEN: ${self:custom.${self:custom.stage}.LLAMA_LE_TOKEN}
+    LLAMA_LOG_LEVEL: ${self:custom.${self:custom.stage}.LLAMA_LOG_LEVEL}
+    STAGE: ${self:custom.stage}
 plugins:
   - serverless-offline
+  - serverless-plugin-bind-deployment-id
+  - "@ifit/janus"
 functions:
+  ping:
+    handler: out/index.pingHandler
+    description: "ping pong"
+    events:
+      - http:
+          path: /v1/ping
+          method: get
   test:
-    handler: out/index.test
-    name: "${self:service}-${self:provider.stage}"
+    handler: out/index.testHandler
     description: "a test handler"
     events:
       - http:
-          path: /v1/something/test
+          path: /v1/test
           method: get
           cors: true
