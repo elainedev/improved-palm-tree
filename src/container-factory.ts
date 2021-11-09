@@ -6,6 +6,7 @@ const log = llama("improved-palm-tree:container-factory");
 
 type ServiceEvent = HTTPEvent;
 
+// initializes and creates the container
 export class ContainerFactory implements IContainerFactory<ServiceEvent> {
   private container: Container | undefined;
 

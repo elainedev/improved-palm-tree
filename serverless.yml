@@ -7,8 +7,8 @@ custom:
     host: ${env:HOST, 'localhost'}
     stage: local
   local:
-    LLAMA_LE_TOKEN: '${env:LLAMA_LE_TOKEN}'
-    LLAMA_LOG_LEVEL: '${env:LLAMA_LOG_LEVEL}'
+    LLAMA_LE_TOKEN: "${env:LLAMA_LE_TOKEN}"
+    LLAMA_LOG_LEVEL: "${env:LLAMA_LOG_LEVEL}"
 provider:
   name: aws
   runtime: nodejs12.x
@@ -37,3 +37,10 @@ functions:
           path: /v1/test
           method: get
           cors: true
+  moo:
+    handler: out/index.mooHandler
+    description: "moo cow"
+    events:
+      - http:
+          path: /v1/moo
+          method: get
