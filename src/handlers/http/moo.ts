@@ -10,6 +10,7 @@ import { FunctionToInject } from "../../helpers/mooHelper";
 export interface BodyInterface {
   message: string;
   target: string;
+  count?: number;
 }
 // body: { message: string; target: string }; // type of the input the user passes in, e.g. with Postman
 
@@ -20,7 +21,9 @@ export interface IMooHandlerEvent extends HTTPEventArguments {
 }
 
 export interface IMooHandlerResponseBody {
-  message?: string;
+  message: string;
+  target: string;
+  count: number;
 }
 
 export type IMooHandlerResponse = HTTPResult<IMooHandlerResponseBody>;
@@ -48,8 +51,13 @@ export class MooHandler extends HTTPHandler<IMooHandlerEvent> {
     // };
     //^hardcoded
 
-    this.functionToInject.countOccurances(body.message, body.target);
+    const count = this.functionToInject.countOccurances(
+      body.message,
+      body.target
+    );
 
-    return HTTPResult.OK({ body });
+    const result = { ...body, count };
+
+    return HTTPResult.OK({ body: result }); // HTTPResult is probably expecting a body keyword
   }
 }

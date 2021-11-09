@@ -13,6 +13,7 @@ export class FunctionToInject implements IMessageHelper {
         count++;
       }
     }
+    console.log("count", count);
     return count;
   }
 }
