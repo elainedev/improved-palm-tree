@@ -43,4 +43,4 @@ functions:
     events:
       - http:
           path: /v1/moo
-          method: get
+          method: post
